@@ -1,12 +1,14 @@
-#ifndef GUIASSIGNER
-#define GUIASSIGNER
-
-#ifdef __cplusplus
+#ifndef VARIABLEASSIGNER
+#define VARIABLEASSIGNER
 
 #include "HardwareSerial.h"
+
+
+#ifdef __cplusplus
 // #include <functional>
 // using callback_function_t = std::function<void(void)>;
 #define CHANNEL_MAX 10
+#define BUF_SIZE 100
 /* Class --------------------------------------------------------*/
 class Assign {
 	public:
@@ -47,6 +49,8 @@ class Assign {
 		double *variableDouble[CHANNEL_MAX];
 		varType type[CHANNEL_MAX];
 		HardwareSerial *_port;
+		char buf[BUF_SIZE];
+		uint8_t buf_cnt=0;		
 };
 
 #endif
