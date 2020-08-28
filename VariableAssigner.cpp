@@ -59,6 +59,7 @@ void Assign::ReadCommand(void) {
   uint8_t cmd;
   char * endPtr;
   char * Str;;
+  char ch;
 
   while(_port->available()>0) {
 
@@ -72,7 +73,7 @@ void Assign::ReadCommand(void) {
     if(car=='\n'){
       // end of line
       //for(cmd=0;cmd<sizeof(Command) && Command[cmd]!=buf[0];cmd++);
-			if(buf[0]>='A' && buf[0]<='H') {
+			if(buf[0]>='A' && buf[0]<='J') {
 				channel = buf[0] - 'A';
 				// read the number 
 				Str = &buf[1];
@@ -113,8 +114,33 @@ void Assign::ReadCommand(void) {
 						*variableDouble[channel] = value;
 						break;
 				} // end switch
-			} // end if 'A' -> 'H'
+			} // end if 'A' -> 'K'
 			buf_cnt=0;
 		} // end if end of line
 	} // end while
+	// now output data for channel from 'K' to 'O' (10 to 14)
+	if(millis()-t>50) {
+		t=millis();
+		for(uint8_t i=10;i<15;i++) {
+			ch = 65 + i;
+			if(variableBool[i]!=NULL)
+				_port->println(char(1) + String(ch) + "=" + *variableBool[i]);
+			if(variableUint8[i]!=NULL)
+				_port->println(char(1) + String(ch) + "=" + *variableUint8[i]);	
+			if(variableInt8[i]!=NULL)
+				_port->println(char(1) + String(ch) + "=" + *variableInt8[i]);		
+			if(variableUint16[i]!=NULL)
+				_port->println(char(1) + String(ch) + "=" + *variableUint16[i]);		
+			if(variableInt16[i]!=NULL)
+				_port->println(char(1) + String(ch) + "=" + *variableInt16[i]);		
+			if(variableUint32[i]!=NULL)
+				_port->println(char(1) + String(ch) + "=" + *variableUint32[i]);		
+			if(variableInt32[i]!=NULL)
+				_port->println(char(1) + String(ch) + "=" + *variableInt32[i]);		
+			if(variableFloat[i]!=NULL)
+				_port->println(char(1) + String(ch) + "=" + *variableFloat[i]);		
+			if(variableDouble[i]!=NULL)
+				_port->println(char(1) + String(ch) + "=" + *variableDouble[i]);		
+		}
+	}
 }
