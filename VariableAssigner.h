@@ -1,7 +1,7 @@
 #ifndef VARIABLEASSIGNER
 #define VARIABLEASSIGNER
 
-#include "arduino.h"
+#include "Arduino.h"
 #include "HardwareSerial.h"
 
 
