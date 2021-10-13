@@ -1,6 +1,12 @@
 #include "VariableAssigner.h"
 
-#define PRINT2(p,a,b) 	{p->print(a);p->println(b);}
+//#define DEBUG
+
+#ifdef DEBUG
+#	define PRINT2(p,a,b) 	{p->print(a);p->println(b);}
+#else
+# define PRINT2(p,a,b)
+#endif
 
 Assign::Assign(HardwareSerial *port) {
 	_port = port;
@@ -58,7 +64,7 @@ void Assign::ReadCommand(void) {
   uint8_t car;
   uint8_t cmd;
   char * endPtr;
-  char * Str;;
+  char * Str;
   char ch;
 
   while(_port->available()>0) {
@@ -81,7 +87,7 @@ void Assign::ReadCommand(void) {
 				value = strtof( Str, &endPtr );
 
 				if ( endPtr == Str ) {
-					_port->println("!Erreur de format de nombre");
+					_port->println(" !Erreur de format de nombre");
 				} else {
 					PRINT2(_port, char(1)+String(buf[0])+"=",value);
 				}
